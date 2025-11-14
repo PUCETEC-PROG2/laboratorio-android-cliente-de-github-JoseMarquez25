@@ -3,6 +3,7 @@ package ec.edu.uisek.githubclient
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ec.edu.uisek.githubclient.databinding.FragmentRepoItemBinding
 import ec.edu.uisek.githubclient.models.Repo
 
@@ -14,7 +15,7 @@ class RepoViewHolder(private val binding: FragmentRepoItemBinding) : RecyclerVie
     //    Por ahora, usaremos datos de ejemplo.
     fun bind(repo: Repo) {
         binding.repoName.text = repo.name
-        binding.repoDescription.text = repo.description ?: "El Repo no tiene descripcion"
+        binding.repoDescription.text = repo.description ?: "El repositorio no tiene descripción"
         binding.repoLang.text = repo.language ?: "Lenguaje no especificado"
         Glide.with(binding.root.context)
             .load(repo.owner.avatarUrl)
