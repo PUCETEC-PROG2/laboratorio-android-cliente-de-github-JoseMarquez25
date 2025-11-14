@@ -7,4 +7,3 @@ data class Repo(
     val language: String?,
     val owner: RepoOwner
 )
-
