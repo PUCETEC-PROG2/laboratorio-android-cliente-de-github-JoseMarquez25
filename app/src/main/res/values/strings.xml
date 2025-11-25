@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">Github Client</string>
+    <string name="app_name">GithubClient</string>
+
+    <string name="repo_name">Repository Name</string>
+    <string name="repo_description">Repository Description</string>
+    <string name="repo_lang">Language</string>
+    <string name="no_description">El repositorio no tiene descripción</string>
+    <string name="no_language">Lenguaje no especificado</string>
+
+    <!-- Este se usa múltiples veces según tu error -->
+    <string name="test_text">Test</string>
 </resources>

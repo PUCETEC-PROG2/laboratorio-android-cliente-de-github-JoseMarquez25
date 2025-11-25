@@ -9,27 +9,42 @@ import ec.edu.uisek.githubclient.models.Repo
 
 // 1. Clase ViewHolder: Contiene las referencias a las vistas de un solo ítem.
 //    Usa la clase de ViewBinding generada para fragment_repo_item.xml.
-class RepoViewHolder(private val binding: FragmentRepoItemBinding) : RecyclerView.ViewHolder(binding.root) {
+class RepoViewHolder(
+    private val binding: FragmentRepoItemBinding,
+    private val onEditClick: (Repo) -> Unit,
+    private val onDeleteClick: (Repo) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
 
     // 2. Función para vincular datos a las vistas del ítem.
-    //    Por ahora, usaremos datos de ejemplo.
     fun bind(repo: Repo) {
         binding.repoName.text = repo.name
-        binding.repoDescription.text = repo.description ?: "El repositorio no tiene descripción"
-        binding.repoLang.text = repo.language ?: "Lenguaje no especificado"
+        binding.repoDescription.text = repo.description ?: "El repositorio no tiene descripcion"
+        binding.repoLanguage.text = repo.language ?: "El repositorio no tiene lenguaje"
         Glide.with(binding.root.context)
             .load(repo.owner.avatarUrl)
             .placeholder(R.mipmap.ic_launcher)
             .error(R.mipmap.ic_launcher)
             .circleCrop()
             .into(binding.repoOwnerImage)
+
+        binding.btnEdit.setOnClickListener {
+            onEditClick(repo)
+        }
+
+        binding.btnDelete.setOnClickListener {
+            onDeleteClick(repo)
+        }
     }
 }
 
 // 3. Clase Adapter: Gestiona la creación y actualización de los ViewHolders.
-class ReposAdapter : RecyclerView.Adapter<RepoViewHolder>() {
+class ReposAdapter(
+    private val onEditClick: (Repo) -> Unit,
+    private val onDeleteClick: (Repo) -> Unit
+) : RecyclerView.Adapter<RepoViewHolder>() {
 
     private var repositories : List<Repo> = emptyList()
+
     override fun getItemCount(): Int = repositories.size
 
     // Se llama para crear un nuevo ViewHolder cuando el RecyclerView lo necesita.
@@ -40,7 +55,7 @@ class ReposAdapter : RecyclerView.Adapter<RepoViewHolder>() {
             parent,
             false
         )
-        return RepoViewHolder(binding)
+        return RepoViewHolder(binding, onEditClick, onDeleteClick)
     }
 
     // Se llama para vincular los datos a un ViewHolder en una posición específica.
@@ -48,8 +63,9 @@ class ReposAdapter : RecyclerView.Adapter<RepoViewHolder>() {
         holder.bind(repositories[position])
     }
 
-    fun updateRepositories(newRepos: List<Repo>) {
+    fun updateRepositories(newRepos: List<Repo>){
         repositories = newRepos
+
         notifyDataSetChanged()
     }
 }
